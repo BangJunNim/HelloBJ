@@ -2,13 +2,14 @@
 //타일 기본 정의 h
 
 // 타일 사이즈 
-#define TILESIZE 64
+#define TILESIZEX 64
+#define TILESIZEY 64
 // 타일 갯수 
 #define TileX 60
 #define TileY 60
 // 타일을 그릴 화면 사이즈  1440 * 1440
-#define TileSizeX TILESIZE * TileX
-#define TileSizeY TILESIZE * TileY
+#define WinTileSizeX TILESIZE * TileX
+#define WInTileSizeY TILESIZE * TileY
 // 바닥 타일 범위  
 #define FloorTileX 9
 #define FloorTileY 5

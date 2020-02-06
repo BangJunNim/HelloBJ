@@ -52,6 +52,9 @@
     <Filter Include="2DGameFramework\action">
       <UniqueIdentifier>{a505733a-b5f1-416e-941e-fb290e7b22a8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="playGround\MapDate">
+      <UniqueIdentifier>{fe6db620-0274-47f9-8b04-fd4dc1020fc5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -129,6 +132,12 @@
     <ClInclude Include="keyAniManager.h">
       <Filter>2DGameFramework\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="TileNode.h">
+      <Filter>playGround\MapDate</Filter>
+    </ClInclude>
+    <ClInclude Include="TileMap.h">
+      <Filter>playGround\MapDate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -190,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="keyAniManager.cpp">
       <Filter>2DGameFramework\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="TileMap.cpp">
+      <Filter>playGround\MapDate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

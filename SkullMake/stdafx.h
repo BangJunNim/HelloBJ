@@ -15,6 +15,7 @@
 
 using namespace std;
 
+#include "TileNode.h"
 #include "commonMacroFunction.h"
 #include "randomFunction.h"
 #include "keyManager.h"

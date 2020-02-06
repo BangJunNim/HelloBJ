@@ -1,5 +1,6 @@
 #pragma once
 #include "gameNode.h"
+#include "TileMap.h"
 
 #ifdef UNICODE
 #pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
@@ -26,7 +27,9 @@ private:
 	int worSizeX, worSizeY;
 
 	float cameraX, cameraY;
-	
+	 
+	TileMap* TMap;
+
 public:
 	playGround();
 	~playGround();

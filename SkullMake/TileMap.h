@@ -18,9 +18,9 @@ public:
 	~TileMap();
 
 	HRESULT init();
-	void Release();
-	void Update();
-	void Render();
+	void release();
+	void update();
+	void render();
 
 	void Load();
 

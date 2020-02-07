@@ -9,6 +9,7 @@ public:
 	void AddScene()
 	{
 		SCENEMANAGER->addScene("TileMap", new TileMap);
+
 	}
 
 	void ChangeScene(string sceneName)

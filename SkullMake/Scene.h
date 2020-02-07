@@ -2,7 +2,7 @@
 #include "gameNode.h"
 #include "SceneBox.h"
 
-class Scene
+class Scene:public gameNode
 {
 private:
 	//¾À ÇÔ¼ö ¼ÒÈ¯ ! 
@@ -12,9 +12,9 @@ public:
 	Scene();
 	~Scene();
 
-	virtual HRESULT Init();
-	virtual void Release();
-	virtual void Update();
-	virtual void Render();
+	virtual HRESULT init();
+	virtual void release();
+	virtual void update();
+	virtual void render();
 };
 

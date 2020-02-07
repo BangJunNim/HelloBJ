@@ -11,23 +11,24 @@ Scene::~Scene()
 {
 }
 
-HRESULT Scene::Init()
+HRESULT Scene::init()
 {
 	SBox.AddScene();
 	SBox.ChangeScene("TileMap");
 	return S_OK;
 }
 
-void Scene::Release()
+void Scene::release()
 {
+	SCENEMANAGER->release();
 }
 
-void Scene::Update()
+void Scene::update()
 {
 	SCENEMANAGER->update();
 }
 
-void Scene::Render()
+void Scene::render()
 {
 	SCENEMANAGER->render();
 }

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ #include "stdafx.h"
 #include "playGround.h"
 
 
@@ -14,8 +14,7 @@ HRESULT playGround::init()
 {
 	gameNode::init(true);
 	SSin = new Scene;
-	SSin->Init();
-
+	SSin->init();
 	return S_OK;
 }
 
@@ -23,22 +22,21 @@ HRESULT playGround::init()
 void playGround::release()
 {
 	gameNode::release();
-	SSin->Release();
+	SSin->release();
 }
 
 
 void playGround::update()
 {
 	gameNode::update();
-	SSin->Update();
+	SSin->update();
 }
 
 void playGround::render()
 {
 	//PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//==========================================================	
-	SSin->Render();
-
+	SSin->render();
 
 	//===========================================================
 	_backBuffer->render(getHDC(), 0, 0);

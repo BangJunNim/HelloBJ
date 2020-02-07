@@ -36,17 +36,18 @@ HRESULT TileMap::init()
 	return S_OK;
 }
 
-void TileMap::Release()
+void TileMap::release()
 {
 }
 
-void TileMap::Update()
+void TileMap::update()
 {
 }
 
-void TileMap::Render()
+void TileMap::render()
 {
-	//렉트를 그려보자 
+
+	//그리드 
 	for (int i = 0; i < TileX * TileY; ++i)
 	{
 		Rectangle(getMemDC(), Tiles[i].rc);

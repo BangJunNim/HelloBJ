@@ -1,7 +1,7 @@
 #pragma once
 #include "gameNode.h"
-#include "TileMap.h"
 #include "Scene.h"
+#include "ImageBox.h"
 
 //#ifdef UNICODE
 //#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
@@ -13,7 +13,8 @@ class playGround : public gameNode
 {
 private:
 	
-	TileMap* TMap;
+	AddImageBox AddImage;
+
 	Scene* SSin;
 public:
 	playGround();

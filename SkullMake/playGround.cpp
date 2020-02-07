@@ -13,6 +13,9 @@ playGround::~playGround()
 HRESULT playGround::init()
 {
 	gameNode::init(true);
+
+	AddImage.ImageSave();
+
 	SSin = new Scene;
 	SSin->init();
 	return S_OK;

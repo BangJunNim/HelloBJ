@@ -14,8 +14,8 @@
 #include <iostream>
 
 using namespace std;
+// TileNode - stdafx - CameraBox
 
-#include "TileNode.h"
 #include "commonMacroFunction.h"
 #include "randomFunction.h"
 #include "keyManager.h"
@@ -64,4 +64,46 @@ extern HWND			_hWnd;
 extern POINT		_ptMouse;
 extern BOOL			_leftButtonDown;
 
-#include "CameraBox.h"
+//#include "TileNode.h"
+//#include "CameraBox.h"
+// 이거 두개 인클루드 제외시켜서 서로 꼬이는거 없애고
+
+// 아예 공용으로 쓰고있는 변수 타입들을 미리 컴파일된 헤더로 옮긴거야 이해가지?
+//네네 
+
+//소스트리에 함 올리고 노트북 꺼내서 함 실행해봐.
+
+// 컴퓨터 문제일 수도 있으니까.
+
+typedef struct
+{
+	unsigned short x;
+	unsigned short y;
+} UCAMERA;
+
+// 카메라 연산 
+typedef struct
+{
+	unsigned int TileCountX;
+	unsigned int TileCountY;
+} UCOUNT;
+
+
+// 타일 사이즈 
+#define TILESIZEX 64
+#define TILESIZEY 64
+// 타일 갯수 
+#define TileX 60
+#define TileY 60
+// 타일을 그릴 화면 사이즈  1440 * 1440
+#define WinTileSizeX TILESIZE * TileX
+#define WInTileSizeY TILESIZE * TileY
+// 바닥 타일 범위  
+#define FloorTileX 9
+#define FloorTileY 5
+// 성 바닥 타일 범위
+#define CastieTileX 8
+#define CastieTileY 2
+
+
+//이렇게 하면 될텐데 저 fmod는 모르겠다 ; ..

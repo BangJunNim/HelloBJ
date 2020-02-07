@@ -1,19 +1,8 @@
 #pragma once
-#include "TileNode.h"
-
+#include "stdafx.h"
+//??.. TileSave 여기 있다고? UCAMERA 요 친굽ㄴ다
 //카메라의 좌표 
-typedef struct
-{
-	unsigned short x; 
-	unsigned short y; 
-} UCAMERA;
 
-// 카메라 연산 
-typedef struct
-{
-	unsigned int TileCountX;
-	unsigned int TileCountY;
-} UCOUNT;
 
 //출력하기 원하는 타일인덱스 담아두는
 class CameraFindTile

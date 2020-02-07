@@ -87,10 +87,12 @@ typedef struct
 	ItemTile	ItemTileList;				// æ∆¿Ã≈€ 
 	RECT		rc;
 	int IndexX, IndexY;
+
 } TileInfo;
 
 typedef struct 
 {
 	RECT rcTile;
 	int FloorFrameX, FloorFrameY;
+
 } SampleFloorTile;

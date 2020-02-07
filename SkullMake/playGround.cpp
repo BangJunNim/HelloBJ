@@ -13,9 +13,8 @@ playGround::~playGround()
 HRESULT playGround::init()
 {
 	gameNode::init(true);
-
-	TMap = new TileMap;
-	TMap->init();
+	SSin = new Scene;
+	SSin->Init();
 
 	return S_OK;
 }
@@ -24,21 +23,21 @@ HRESULT playGround::init()
 void playGround::release()
 {
 	gameNode::release();
+	SSin->Release();
 }
 
 
 void playGround::update()
 {
 	gameNode::update();
-
+	SSin->Update();
 }
 
 void playGround::render()
 {
-	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
+	//PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//==========================================================	
-	
-	TMap->Render();
+	SSin->Render();
 
 
 	//===========================================================

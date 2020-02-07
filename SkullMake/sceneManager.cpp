@@ -34,7 +34,6 @@ void sceneManager::release()
 		}
 		else ++miSceneList;
 	}
-
 	_mSceneList.clear();
 }
 
@@ -48,6 +47,7 @@ void sceneManager::render()
 	if (_currentScene) _currentScene->render();
 }
 
+// æ¿ ¥ı«ÿ¡‹ 
 gameNode * sceneManager::addScene(string sceneName, gameNode * scene)
 {
 	if(!scene) return nullptr;
@@ -56,7 +56,7 @@ gameNode * sceneManager::addScene(string sceneName, gameNode * scene)
 
 	return scene;
 }
-
+// æ¿¿ª πŸ≤„¡÷¥¬∞≈¿”. 
 HRESULT sceneManager::changeScene(string sceneName)
 {
 	mapSceneIter find = _mSceneList.find(sceneName);

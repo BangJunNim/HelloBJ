@@ -1,8 +1,4 @@
 #pragma once
-//타일 기본 정의 h
-
-
-
 // 타일의 종류 c
 enum class Tile_Type
 {
@@ -59,24 +55,27 @@ enum class ItemTile
 };
 
 //  배경 이미지 카운트
-enum class BackGroundCount
+enum BackGroundCount
 {
 	Empty, One, two, three
 };
-
+// 맵툴 UI 버튼 
 enum class MapToolUI
 {
 	None, Save, Load, Ground, Eraser
 };
 
+// 백그라운드 배경 이미지 카운트 
+enum class BackGroundImageCount
+{
+	NONE,ONE,TWO,THREE 
+};
+
+//타일 팔렛트 이동은 추후 나중에 할 수 도 안 할수도 있음. 
 
 
-//타일 팔렛트 이동은 추후 나중에  할 수 도 안 할수도 있음. 
 
 // 각 타일( 샘플 ) 정보를 담는다 . 
-// 이래서 남의 코드 그냥 옮기면 안되는거야..그쵸ㅣ...,.,ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠ
-// 근데 저 UCAMERA를 굳이 여기서 쓰는 이유가 있는거야? 
-// 어차피 걍 언사인드 숏 변수 두개 짜리 쓰는건데 그쵸... 음.... 근데 어떻게 대체
 struct TileSetInfo
 {
 	RECT rc;
@@ -90,7 +89,7 @@ struct TileSetInfo
 	}
 };
 
-// 타일(샘플) 목록 
+// 타일(샘플) 목록 , 팔에트 사이즈 
 struct TileSetKind
 {
 	TileSetInfo Ground_TileSet[FloorTileX * FloorTileY];
@@ -98,15 +97,106 @@ struct TileSetKind
 	// 추후 여기에 오브젝트 / 아이템 / 파괴 오브젝트 / 등등 만들면 됨. 
 
 };
-// 뭔놈의 구조체가 이렇게 많어 ㅋㅋㅋㅋ 아이고 ㅋㅋㅋ...ㅠㅠㅠㅠ
-// 일케돼면.. 헤더가 꼬일 수밖에 없지 형 제가 한번 찾아볼게요 ..
-// 타일 프레임 이미지를 담을 구조체들 
+
+// 루프랜더용 변수 구조체 (배경) 빠른 번호부터 제일 뒤에 깔리는 배경 
+struct LoopRenderVariable
+{
+	short LoopImage0;
+	short LoopImage1;
+	short LoopImage2;
+
+	void ResetLoopImage()
+	{
+		LoopImage0 = LoopImage1 = LoopImage2 = 0;
+	}
+};
+
+// 맵 인포 여기서 배경과 타일을 같이 설정을 하고 키로 불렀을  때 사용할 수 있게 . 
+struct Mapmanger
+{
+	//카메라 
+	string MapName;
+	UCAMERA	 TileSize;
+	UCAMERA  TileCount;
+
+	POINTFLOAT Center;
+	RECT rc;;
+
+
+	// 배경 관련 
+	char BackGroundCount; 
+	string BackImage;
+	string MiddleImage;
+	string FrontImage;
+
+	LoopRenderVariable* Loop;
+	
+	// 맵 매니저 초기화 
+	void MapManagerReSet()
+	{
+		MapName = {};
+		TileSize.x = TileSize.y = 0;
+		TileCount.x = TileCount.y = 0;
+
+		Center.x = Center.y = 0;
+		rc.left = rc.top = rc.right = rc.bottom = 0;
+
+		BackGroundCount = 0;
+		BackImage = {};
+		MiddleImage = {};
+		FrontImage = {};
+		Loop = new LoopRenderVariable;
+		Loop->ResetLoopImage();
+	}
+	// 맨뒤 / 중간 / 맨앞 이미지 추가 
+	void AddBackGroundImage(string MapName)
+	{
+		// 값이 이상할 때 빠져나가도록 설정 
+		if (BackGroundCount == 4) return;
+		BackGroundCount++;
+
+		if (BackGroundCount == 1)
+		{
+			BackImage = MapName;
+		}
+
+		if (BackGroundCount == 2)
+		{
+			MiddleImage = MapName;
+		}
+		if (BackGroundCount == 3)
+		{
+			FrontImage == MapName;
+		}
+	}
+	// 배경 맵 교체 하기 위한.  위치와 교체 하려는 맵 이름 
+	void ChangeBackGround(string MapName, signed short Num)
+	{
+		if (Num > 0 && Num <= 3)
+		{
+			switch (Num)
+			{
+			case(One):
+				BackImage = MapName;
+			break;
+				
+			case(two):
+				MiddleImage = MapName;
+			break;
+			
+			case(three):
+				FrontImage = MapName;
+			break;
+			}
+		}
+	}
+};
+
+// 타일 등록할 때 프레임 이미지 써야해서 등롬함
 struct TileFrameImage
 {
 	UCAMERA  GroundFrameImage;  // 지형 이미지 프레임 
 };
-
-
 // 타일 정보를 저장 할 구조체 
 struct TileSave
 {
@@ -119,40 +209,26 @@ struct TileSave
 
 	TileFrameImage	Frame;		// 이미지 프레임 
 	
-	// 타일 초기화 
+	// 타일 초기화
 	void ResetTile()
 	{
 		Center.x = Center.y = 0;
-		
+		Index.x = Index.y = 0;
 		Frame.GroundFrameImage.x = Frame.GroundFrameImage.y = 0;
 		Tiletype = Tile_Type::Empty;
 		Floortype = Floor_Tile::Empty;
-		
 	}
-
 };
 
-
-
-typedef struct 
+// 모든 타일의 샘플 이곳에 잠들었다.  여기서 부터 다시 해보자 
+struct TileBox
 {
-	Tile_Type	TileList;					// 모든 타일 리스트 / 목록  같은 존재
-	Floor_Tile	FloorTileList;				// 바닥
-	Object_Tile ObjTileList;				// 오브젝트
-	BrokenTile	BrokenTileList;				// 파괴가능한
-	EnemyTile	EnemyTileList;				// 적
-	PlayerTile	PlayerTileList;				// 주인공 
-	TrapTile	TrapTileList;				// 함정
-	DoorTile	DoorTileList;				// 문 / 다음 스테이지 
-	ItemTile	ItemTileList;				// 아이템 
-	RECT		rc;
-	int IndexX, IndexY;
+	TileSetKind			Tile;				//샘플 타일 
+	TileSetInfo			TileCurrent;		//선택한타일의 정보 
 
-} TileInfo;
+	// 
+	void Setting()
+	{
 
-typedef struct 
-{
-	RECT rcTile;
-	int FloorFrameX, FloorFrameY;
-
-} SampleFloorTile;
+	}
+};

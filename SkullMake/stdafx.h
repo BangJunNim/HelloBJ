@@ -66,15 +66,8 @@ extern BOOL			_leftButtonDown;
 
 //#include "TileNode.h"
 //#include "CameraBox.h"
-// 이거 두개 인클루드 제외시켜서 서로 꼬이는거 없애고
 
-// 아예 공용으로 쓰고있는 변수 타입들을 미리 컴파일된 헤더로 옮긴거야 이해가지?
-//네네 
-
-//소스트리에 함 올리고 노트북 꺼내서 함 실행해봐.
-
-// 컴퓨터 문제일 수도 있으니까.
-
+// 카메라 좌표 
 typedef struct
 {
 	unsigned short x;
@@ -106,4 +99,3 @@ typedef struct
 #define CastieTileY 2
 
 
-//이렇게 하면 될텐데 저 fmod는 모르겠다 ; ..

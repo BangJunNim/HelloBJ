@@ -1,7 +1,5 @@
 #pragma once
 #include "stdafx.h"
-//??.. TileSave 여기 있다고? UCAMERA 요 친굽ㄴ다
-//카메라의 좌표 
 
 
 //출력하기 원하는 타일인덱스 담아두는

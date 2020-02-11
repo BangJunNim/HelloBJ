@@ -14,7 +14,6 @@
 #include <iostream>
 
 using namespace std;
-// TileNode - stdafx - CameraBox
 
 #include "commonMacroFunction.h"
 #include "randomFunction.h"
@@ -50,7 +49,7 @@ using namespace SEVENTEEN_UTIL;
 #define SOUNDMANAGER soundManager::getSingleton()
 #define SCENEMANAGER sceneManager::getSingleton()
 #define KEYANIMANAGER keyAniManager::getSingleton()
-
+#define CAMERAMANAGER CameraManager::getSingleton()
 
 #define SAFE_DELETE(p) {if(p) {delete(p); (p)=NULL;}}
 #define SAFE_RELEASE(p) {if(p) {(p)->release(); (p) = NULL;}}
@@ -98,4 +97,6 @@ typedef struct
 #define CastieTileX 8
 #define CastieTileY 2
 
+
+#include "CameraManager.h"
 

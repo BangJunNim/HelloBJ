@@ -64,6 +64,18 @@ enum class MapToolUI
 {
 	None, Save, Load, Ground, Eraser
 };
+//타일 이동 하는 바 
+struct SampleTileBar
+{
+	RECT GroundTileBar;						//  우선은 땅 타일 만 먼저 .
+
+
+	void MoveBar()
+	{
+
+	}
+
+};
 
 // 백그라운드 배경 이미지 카운트 
 enum class BackGroundImageCount
@@ -223,12 +235,181 @@ struct TileSave
 // 모든 타일의 샘플 이곳에 잠들었다.  여기서 부터 다시 해보자 
 struct TileBox
 {
+	SampleTileBar		TileBar;			// 타일 바 
 	TileSetKind			Tile;				//샘플 타일 
 	TileSetInfo			TileCurrent;		//선택한타일의 정보 
 
-	// 
+	// 샘플 타일 기본 셋팅 
 	void Setting()
 	{
+		TileBar.GroundTileBar = RectMake(WINSIZEX - IMAGEMANAGER->findImage("TutorialTile")->getWidth(),10,
+			IMAGEMANAGER->findImage("TutorialTile")->getWidth(), 20);
 
+		//샘플타일 오른쪽 옆으로 렉트를 그린다. 
+		for (int y = 0; y < FloorTileY; ++y)
+		{
+			for (int x = 0; x < FloorTileX; ++x)
+			{
+				//프레임값 넣어주기 
+				Tile.Ground_TileSet[x + y * FloorTileX].Frame.x = 0;
+				Tile.Ground_TileSet[x + y * FloorTileX].Frame.y = 0;
+				// 바의 오른쪽에 샘플 타일 그리기 
+				Tile.Ground_TileSet[x + y * FloorTileX].rc =
+					RectMake(TileBar.GroundTileBar.top + x * TILESIZEX, TileBar.GroundTileBar.right + y * TILESIZEY, TILESIZEX, TILESIZEY);
+		
+				Tile.Ground_TileSet->floortile = Floor_Tile::Stage1;
+			}
+		}
+		// 클릭한 타일정보를 담는 변수 비우기 
+		TileCurrent.Frame.x = TileCurrent.Frame.y = 0;
 	}
+	// 타일 갱신/ 좌료 갱실 하기 위햇 
+	void TileUpdate()
+	{
+		//샘플타일 오른쪽 옆으로 렉트를 그린다. 
+		for (int y = 0; y < FloorTileY; ++y)
+		{
+			for (int x = 0; x < FloorTileX; ++x)
+			{
+				// 바의 오른쪽에 샘플 타일 그리기 
+				Tile.Ground_TileSet[x + y * FloorTileX].rc =
+					RectMake(TileBar.GroundTileBar.top + x * TILESIZEX, TileBar.GroundTileBar.right + y * TILESIZEY, TILESIZEX, TILESIZEY);
+			}
+		}
+	}
+	// 타일 출력 함수 
+	void  ShowTile(HDC getMem, MapToolUI Botton)
+	{
+		//버튼 타입에 따라 다른 타일 출력 
+		switch (Botton)
+		{
+		case MapToolUI::Ground:
+			Rectangle(getMem, TileBar.GroundTileBar);
+
+			break;
+		}
+	}
+
+	void TileInfoSave(MapToolUI Botton)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+		{
+			switch (Botton)
+			{
+			case MapToolUI::Ground:
+				for (int i = 0; i < FloorTileX * FloorTileY; ++i)
+				{
+					// 마우스 포인터가 땅 타일 샘플에 핏인 렉트 되었을 때 ; 
+					if (PtInRect(&Tile.Ground_TileSet[i].rc, _ptMouse))
+					{
+						TileCurrent.Frame.x = Tile.Ground_TileSet[i].Frame.x;
+						TileCurrent.Frame.y = Tile.Ground_TileSet[i].Frame.y;
+						TileCurrent.TypeReSet(); // 타입 저장 하기 전에 이전 정보를 삭제
+
+						TileCurrent.floortile = Floor_Tile::Stage1; 
+					}
+				}
+				break;
+			}
+			KEYMANAGER->setKeyDown(VK_LBUTTON, false); // 마우스 클릭 겹치지 않게 하기 위해 서 
+		}
+	}
+};
+// 버튼 관리 
+struct UiButtonInfo
+{
+	// 맵툴 UI 버튼  
+	RECT SaveButton;
+	RECT LoadButton;
+	RECT EraserButton;
+	
+	// 타일 종류 버튼 
+	RECT GroundButton;
+
+	////버튼 타입 
+	//enum class MapToolUI
+	//{
+	//	None, Save, Load, Ground, Eraser
+	//};
+
+	MapToolUI MapUi;
+
+	// 버튼 눌렀는지 체크
+	bool bMapUi; 
+
+	//초 기 호 ㅏ
+	void Reset()
+	{
+		bMapUi = false;
+
+		MapUi = MapToolUI::None;
+
+		SaveButton = RectMake(0, 0, 52, 52);
+		LoadButton = RectMake(62, 0, 52, 52);
+		GroundButton = RectMake(0, 52, 52, 52);
+	}
+	
+	void ButtonImage(HDC getDC)
+	{
+		// 영상 찍을 때 필요한 렉트 출력용 
+		if (KEYMANAGER->isToggleKey(VK_NUMPAD9))
+		{
+			Rectangle(getDC, SaveButton);
+			Rectangle(getDC, LoadButton);
+			Rectangle(getDC, GroundButton);
+
+		}
+		// 버튼 이미지 관리 하는곳
+		IMAGEMANAGER->findImage("Save")->render(getDC, SaveButton.left, SaveButton.top);
+		IMAGEMANAGER->findImage("Load")->render(getDC, SaveButton.left, SaveButton.top);
+		IMAGEMANAGER->findImage("Ground")->render(getDC, SaveButton.left, SaveButton.top);
+	}
+	// 버튼 클릭했을 때
+	void ClickButton()
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+		{
+			if (PtInRect(&SaveButton, _ptMouse)) MapUi = MapToolUI::Save;
+			if (PtInRect(&SaveButton, _ptMouse)) MapUi = MapToolUI::Load;
+			if (PtInRect(&SaveButton, _ptMouse)) MapUi = MapToolUI::Ground;
+
+			KEYMANAGER->setKeyDown(VK_LBUTTON, false);
+		}
+	}
+};
+// 맵 툴클래스 
+class MapClass
+{
+public:
+
+	//그리드 타이 만들기 
+	void BaseTileList(vector<TileSave*>* TileList)
+	{
+		for (int y = 0; y < TileY; ++y)
+		{
+			for (int x = 0; x < TileX; ++x)
+			{
+				TileSave* NewTile = new TileSave;
+				NewTile->ResetTile();
+				NewTile->Index.x = x;
+				NewTile->Index.y = y;
+				NewTile->rc = RectMake(NewTile->Index.x * TILESIZEX, NewTile->Index.y * TILESIZEY, TILESIZEX, TILESIZEY);
+				NewTile->Center.x = (NewTile->rc.left + NewTile->rc.right) / 2.f;
+				NewTile->Center.y = (NewTile->rc.top + NewTile->rc.bottom) / 2.f;
+
+				(*TileList).push_back(NewTile);
+			}
+		}
+	}
+
+	// 카메라안에 있는 타일 찾아서 저장 
+	void CameraTileSave()
+	{
+		CAMERAMANAGER->CameraFunc()->FINDTile(CAMERAMANAGER->CameraFunc()->GetCameraOperation().TileCountX, CAMERAMANAGER->CameraFunc()->GetCameraOperation().TileCountY);
+	}
+
+
+
+private:
+
 };
